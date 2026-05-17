@@ -321,33 +321,49 @@ body {
 }
 
 /* ══════════════════════════════════════════
-   Mobile sheet / safe area utilities
+   Unified mobile bottom sheet / modal system
    ══════════════════════════════════════════ */
 
-/* Bottom safe-area padding for modals and sheets */
-.safe-bottom {
-  padding-bottom: calc(24px + env(safe-area-inset-bottom, 24px));
+/* Overlay — fixed backdrop, above bottom nav (z-50) */
+.mobile-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
 }
 
-/* Modal bottom sheet — uses dvh, not vh, to account for browser chrome */
-.sheet-container {
+@media (min-width: 640px) {
+  .mobile-overlay {
+    align-items: center;
+  }
+}
+
+/* Bottom sheet container — dvh-based height, flex column */
+.mobile-sheet {
+  width: 100%;
   max-height: calc(100dvh - 64px);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 
-/* Scrollable area inside a sheet — smooth touch scrolling */
-.sheet-scroll {
+/* Scrollable content area inside sheet */
+.mobile-sheet-body {
+  flex: 1;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
-  flex: 1;
 }
 
-/* Footer inside a sheet — always visible at the bottom */
-.sheet-footer {
+/* Sticky footer for action buttons — safe-area padded */
+.mobile-sheet-footer {
   flex-shrink: 0;
+  position: relative;
   background: inherit;
 }
 
-/* z-index tier: modals sit above bottom nav (z-50) */
-.modal-overlay {
-  z-index: 60;
+/* Bottom safe-area padding helper */
+.safe-bottom {
+  padding-bottom: calc(24px + env(safe-area-inset-bottom, 24px));
 }

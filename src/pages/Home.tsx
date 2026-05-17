@@ -424,83 +424,92 @@ export function HomePage() {
          END WEEK REVIEW MODAL
          ══════════════════════════════════════════ */}
       {showReview && activeWeek && (
-        <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center">
+        <div className="mobile-overlay">
           <div
             className="absolute inset-0 bg-[#2F2D28]/40"
             onClick={() => setShowReview(false)}
           />
-          <div className="relative bg-[#FFFDF8] rounded-t-2xl sm:rounded-2xl w-full max-w-sm p-6 pb-[calc(1.5rem+env(safe-area-inset-bottom,0px))] animate-in slide-in-from-bottom duration-300 max-h-[80vh] overflow-y-auto">
-            <h2 className="text-lg font-semibold text-[#2F2D28] mb-1">
-              结束本周复盘
-            </h2>
-            <p className="text-xs text-[#8B867D] mb-5">
-              {activeWeek.themeTitle} · 完成后不可修改
-            </p>
+          <div className="mobile-sheet bg-[#FFFDF8] rounded-t-2xl sm:rounded-2xl max-w-sm animate-in slide-in-from-bottom duration-300">
+            {/* ── Header (fixed) ── */}
+            <div className="shrink-0 px-6 pt-2">
+              <h2 className="text-lg font-semibold text-[#2F2D28] mb-1">
+                结束本周复盘
+              </h2>
+              <p className="text-xs text-[#8B867D] mb-5">
+                {activeWeek.themeTitle} · 完成后不可修改
+              </p>
+            </div>
 
-            <div className="space-y-4">
-              <div>
-                <label className="text-xs text-[#8B867D] font-medium mb-1.5 block">
-                  本周最大的收获是？
-                </label>
-                <textarea
-                  value={reviewGain}
-                  onChange={(e) => setReviewGain(e.target.value)}
-                  placeholder="写写这周的感受..."
-                  className="w-full rounded-xl border border-[#E8E1D6] px-3.5 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-[#8FA58E]/40 focus:border-[#8FA58E]/40 bg-white resize-none h-20 text-[#2F2D28] placeholder:text-[#BFB8AD]"
-                />
-              </div>
-              <div>
-                <label className="text-xs text-[#8B867D] font-medium mb-1.5 block">
-                  遇到什么困难或卡住的地方？
-                </label>
-                <textarea
-                  value={reviewStruggle}
-                  onChange={(e) => setReviewStruggle(e.target.value)}
-                  placeholder="有什么挑战？"
-                  className="w-full rounded-xl border border-[#E8E1D6] px-3.5 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-[#8FA58E]/40 focus:border-[#8FA58E]/40 bg-white resize-none h-20 text-[#2F2D28] placeholder:text-[#BFB8AD]"
-                />
-              </div>
-              <div>
-                <label className="text-xs text-[#8B867D] font-medium mb-1.5 block">
-                  下周是否继续这个主题？
-                </label>
-                <div className="flex gap-2">
-                  {[true, false].map((v) => (
-                    <button
-                      key={String(v)}
-                      onClick={() => setContinueNext(v)}
-                      className={cn(
-                        "flex-1 py-2 rounded-lg text-sm font-medium transition-all",
-                        continueNext === v
-                          ? "bg-[#8FA58E] text-white"
-                          : "bg-[#F3EFE8] text-[#8B867D]",
-                      )}
-                    >
-                      {v ? "继续" : "换一个"}
-                    </button>
-                  ))}
+            {/* ── Scrollable form body ── */}
+            <div className="mobile-sheet-body px-6">
+              <div className="space-y-4">
+                <div>
+                  <label className="text-xs text-[#8B867D] font-medium mb-1.5 block">
+                    本周最大的收获是？
+                  </label>
+                  <textarea
+                    value={reviewGain}
+                    onChange={(e) => setReviewGain(e.target.value)}
+                    placeholder="写写这周的感受..."
+                    className="w-full rounded-xl border border-[#E8E1D6] px-3.5 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-[#8FA58E]/40 focus:border-[#8FA58E]/40 bg-white resize-none h-20 text-[#2F2D28] placeholder:text-[#BFB8AD]"
+                  />
                 </div>
-              </div>
-              <div>
-                <label className="text-xs text-[#8B867D] font-medium mb-1.5 block">
-                  其他想说的（选填）
-                </label>
-                <input
-                  type="text"
-                  value={reviewNotes}
-                  onChange={(e) => setReviewNotes(e.target.value)}
-                  placeholder="任何想记录的话..."
-                  className="w-full rounded-xl border border-[#E8E1D6] px-3.5 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-[#8FA58E]/40 focus:border-[#8FA58E]/40 bg-white text-[#2F2D28] placeholder:text-[#BFB8AD]"
-                />
+                <div>
+                  <label className="text-xs text-[#8B867D] font-medium mb-1.5 block">
+                    遇到什么困难或卡住的地方？
+                  </label>
+                  <textarea
+                    value={reviewStruggle}
+                    onChange={(e) => setReviewStruggle(e.target.value)}
+                    placeholder="有什么挑战？"
+                    className="w-full rounded-xl border border-[#E8E1D6] px-3.5 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-[#8FA58E]/40 focus:border-[#8FA58E]/40 bg-white resize-none h-20 text-[#2F2D28] placeholder:text-[#BFB8AD]"
+                  />
+                </div>
+                <div>
+                  <label className="text-xs text-[#8B867D] font-medium mb-1.5 block">
+                    下周是否继续这个主题？
+                  </label>
+                  <div className="flex gap-2">
+                    {[true, false].map((v) => (
+                      <button
+                        key={String(v)}
+                        onClick={() => setContinueNext(v)}
+                        className={cn(
+                          "flex-1 py-2 rounded-lg text-sm font-medium transition-all",
+                          continueNext === v
+                            ? "bg-[#8FA58E] text-white"
+                            : "bg-[#F3EFE8] text-[#8B867D]",
+                        )}
+                      >
+                        {v ? "继续" : "换一个"}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+                <div>
+                  <label className="text-xs text-[#8B867D] font-medium mb-1.5 block">
+                    其他想说的（选填）
+                  </label>
+                  <input
+                    type="text"
+                    value={reviewNotes}
+                    onChange={(e) => setReviewNotes(e.target.value)}
+                    placeholder="任何想记录的话..."
+                    className="w-full rounded-xl border border-[#E8E1D6] px-3.5 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-[#8FA58E]/40 focus:border-[#8FA58E]/40 bg-white text-[#2F2D28] placeholder:text-[#BFB8AD]"
+                  />
+                </div>
               </div>
             </div>
 
-            <button
-              onClick={handleReviewSubmit}
-              className="w-full mt-6 py-2.5 rounded-xl font-medium text-sm text-white bg-[#8FA58E] hover:bg-[#7A9279] active:opacity-90 transition-all"
-            >
-              完成复盘
-            </button>
+            {/* ── Footer — submit button always visible ── */}
+            <div className="mobile-sheet-footer px-6 pt-4 safe-bottom">
+              <button
+                onClick={handleReviewSubmit}
+                className="w-full py-2.5 rounded-xl font-medium text-sm text-white bg-[#8FA58E] hover:bg-[#7A9279] active:opacity-90 transition-all"
+              >
+                完成复盘
+              </button>
+            </div>
           </div>
         </div>
       )}

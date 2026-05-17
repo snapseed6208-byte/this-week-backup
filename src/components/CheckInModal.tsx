@@ -30,18 +30,18 @@ export function CheckInModal({
   const hasNumericInput = checkInType !== "达标/未达标" && checkInType !== "次数" && checkInType !== "个数" && checkInType !== "件数";
 
   return (
-    <div className="modal-overlay fixed inset-0 flex items-end sm:items-center justify-center">
+    <div className="mobile-overlay">
       {/* Backdrop */}
       <div className="absolute inset-0 bg-[#2F2D28]/40" onClick={onClose} />
 
-      {/* Sheet — flex column layout with predictable dvh-based height */}
-      <div className="sheet-container relative bg-[#FFFDF8] rounded-t-3xl sm:rounded-2xl w-full max-w-sm flex flex-col animate-in slide-in-from-bottom duration-300">
-        {/* Gentle top drag indicator */}
+      {/* Sheet — flex column, dvh-based height, rounded top */}
+      <div className="mobile-sheet bg-[#FFFDF8] rounded-t-3xl sm:rounded-2xl max-w-sm animate-in slide-in-from-bottom duration-300">
+        {/* Drag indicator */}
         <div className="flex justify-center pt-3 pb-1 shrink-0">
           <div className="w-8 h-1 rounded-full bg-[#E8E1D6]" />
         </div>
 
-        {/* ── Fixed header area ── */}
+        {/* ── Header (fixed) ── */}
         <div className="shrink-0 px-6">
           <div className="flex items-center justify-between mb-5">
             <div>
@@ -63,8 +63,8 @@ export function CheckInModal({
           </p>
         </div>
 
-        {/* ── Scrollable content area ── */}
-        <div className="sheet-scroll px-6">
+        {/* ── Scrollable body ── */}
+        <div className="mobile-sheet-body px-6">
           {/* Status — segmented cards */}
           <div className="flex gap-2.5 mb-5">
             {[
@@ -146,8 +146,8 @@ export function CheckInModal({
           </div>
         </div>
 
-        {/* ── Sticky footer — save button always visible ── */}
-        <div className="sheet-footer px-6 pt-4 safe-bottom">
+        {/* ── Footer — save button always visible ── */}
+        <div className="mobile-sheet-footer px-6 pt-4 safe-bottom">
           <button
             onClick={() =>
               onSave(
