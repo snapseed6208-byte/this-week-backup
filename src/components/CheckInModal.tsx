@@ -35,13 +35,14 @@ export function CheckInModal({
       <div className="absolute inset-0 bg-[#2C2A28]/40" onClick={onClose} />
 
       {/* Sheet */}
-      <div className="relative bg-[#FFFCF8] rounded-t-3xl sm:rounded-2xl w-full max-w-sm pb-8 animate-in slide-in-from-bottom duration-300">
-        {/* Gentle top drag indicator */}
-        <div className="flex justify-center pt-3 pb-1">
+      <div className="relative bg-[#FFFCF8] rounded-t-3xl sm:rounded-2xl w-full max-w-sm flex flex-col max-h-[85dvh] animate-in slide-in-from-bottom duration-300">
+        {/* Gentle top drag indicator (stays visible) */}
+        <div className="flex justify-center pt-3 pb-1 shrink-0">
           <div className="w-8 h-1 rounded-full bg-[#EAE5DE]" />
         </div>
 
-        <div className="px-6">
+        {/* Scrollable content with safe-area bottom clearance */}
+        <div className="overflow-y-auto px-6 pb-[calc(1.5rem+env(safe-area-inset-bottom,0px))]">
           {/* ── Header ── */}
           <div className="flex items-center justify-between mb-5">
             <div>

@@ -439,7 +439,7 @@ export function HomePage() {
             className="absolute inset-0 bg-[#2C2A28]/40"
             onClick={() => setShowReview(false)}
           />
-          <div className="relative bg-[#FFFCF8] rounded-t-2xl sm:rounded-2xl w-full max-w-sm p-6 pb-8 animate-in slide-in-from-bottom duration-300 max-h-[80vh] overflow-y-auto">
+          <div className="relative bg-[#FFFCF8] rounded-t-2xl sm:rounded-2xl w-full max-w-sm p-6 pb-[calc(1.5rem+env(safe-area-inset-bottom,0px))] animate-in slide-in-from-bottom duration-300 max-h-[80vh] overflow-y-auto">
             <h2 className="text-lg font-semibold text-[#2C2A28] mb-1">
               结束本周复盘
             </h2>
