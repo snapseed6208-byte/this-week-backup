@@ -2,23 +2,38 @@
 
 @theme {
   --font-sans: "Noto Sans SC", "Inter", ui-sans-serif, system-ui, sans-serif;
-  --color-week-purple: #8B5CF6;
-  --color-week-purple-light: #A78BFA;
-  --color-week-purple-dark: #7C3AED;
-  --color-week-pink: #EC4899;
-  --color-week-teal: #14B8A6;
-  --color-week-amber: #F59E0B;
-  --color-week-rose: #F43F5E;
-  --color-bg-warm: #FDFBF7;
-  --color-bg-card: #FFFFFF;
-  --color-text-primary: #1E293B;
-  --color-text-secondary: #64748B;
-  --color-text-muted: #94A3B8;
-  --color-border-subtle: #F1F5F9;
-  --color-border-card: #E2E8F0;
-  --color-accent-green: #10B981;
-  --color-accent-yellow: #FBBF24;
-  --color-accent-red: #EF4444;
+
+  /* ── Core palette ── */
+  --color-bg-warm: #F8F6F2;
+  --color-bg-card: #FFFCF8;
+  --color-bg-elevated: #FFFFFF;
+
+  /* ── Accent / lavender ── */
+  --color-week-purple: #8E7DBE;
+  --color-week-purple-light: #D9D0E8;
+  --color-week-purple-dark: #7D6DAE;
+  --color-week-purple-faint: #F0ECF5;
+
+  /* ── Text ── */
+  --color-text-primary: #2C2A28;
+  --color-text-secondary: #8B8680;
+  --color-text-muted: #BFB8B0;
+
+  /* ── Borders & dividers ── */
+  --color-border-subtle: #F0ECE6;
+  --color-border-card: #EAE5DE;
+
+  /* ── Status accents (low saturation, calm) ── */
+  --color-accent-green: #A8D5BA;
+  --color-accent-green-text: #5A8F6E;
+  --color-accent-yellow: #E8D5A3;
+  --color-accent-yellow-text: #9A8250;
+  --color-accent-red: #E8C5C5;
+  --color-accent-red-text: #A06060;
+
+  /* ── Shadows ── */
+  --color-shadow-light: rgba(44, 42, 40, 0.04);
+  --color-shadow-medium: rgba(44, 42, 40, 0.08);
 }
 
 body {
@@ -29,43 +44,180 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* ── Mobile-safe container ── */
+/* ══════════════════════════════════════════
+   Responsive Page Container
+   ══════════════════════════════════════════ */
+
 .page-container {
+  width: 100%;
   max-width: 480px;
   margin: 0 auto;
-  padding: 16px 16px 80px 16px;
+  padding: 20px 20px 88px 20px;
   min-height: 100dvh;
 }
 
-/* ── Bottom navigation bar ── */
+@media (min-width: 800px) {
+  .page-container {
+    max-width: 680px;
+    padding: 28px 32px 96px 32px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .page-container {
+    max-width: 920px;
+    padding: 40px 48px 96px 48px;
+  }
+}
+
+/* ══════════════════════════════════════════
+   Bottom Navigation
+   ══════════════════════════════════════════ */
+
 .bottom-nav {
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
-  background: white;
-  border-top: 1px solid #F1F5F9;
   display: flex;
-  justify-content: space-around;
-  padding: 8px 0;
-  padding-bottom: max(8px, env(safe-area-inset-bottom, 8px));
+  justify-content: center;
+  background: var(--color-bg-card);
   z-index: 50;
 }
 
-/* ── Card styling ── */
+.bottom-nav-inner {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  max-width: 480px;
+  padding: 6px 0;
+  padding-bottom: max(6px, env(safe-area-inset-bottom, 6px));
+}
+
+@media (min-width: 800px) {
+  .bottom-nav-inner {
+    max-width: 680px;
+    padding: 8px 0;
+    padding-bottom: max(8px, env(safe-area-inset-bottom, 8px));
+  }
+}
+
+@media (min-width: 1200px) {
+  .bottom-nav-inner {
+    max-width: 920px;
+  }
+}
+
+/* ══════════════════════════════════════════
+   Card System
+   ══════════════════════════════════════════ */
+
+/* Standard card — for content blocks */
 .card {
-  background: white;
-  border: 1px solid #E2E8F0;
-  border-radius: 16px;
-  padding: 16px;
-  transition: box-shadow 0.2s;
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border-card);
+  border-radius: 18px;
+  padding: 20px;
+  transition: opacity 0.15s;
 }
 
 .card:active {
-  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  opacity: 0.85;
 }
 
-/* ── Scrollable category tabs ── */
+/* Elevated card — with subtle shadow, no border */
+.card-elevated {
+  background: var(--color-bg-card);
+  border-radius: 18px;
+  padding: 20px;
+  box-shadow: 0 1px 4px var(--color-shadow-light), 0 1px 2px var(--color-shadow-light);
+}
+
+/* Soft card — no border, no shadow, just background tint */
+.card-soft {
+  background: var(--color-bg-card);
+  border-radius: 18px;
+  padding: 20px;
+}
+
+/* Featured card — highlighted / hero card */
+.card-featured {
+  background: var(--color-bg-card);
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: 0 2px 8px var(--color-shadow-light), 0 1px 3px var(--color-shadow-light);
+}
+
+/* Themed card with color accent */
+.card-themed {
+  border-radius: 18px;
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* ══════════════════════════════════════════
+   Section rhythm
+   ══════════════════════════════════════════ */
+
+.section-label {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--color-text-muted);
+  letter-spacing: 0.05em;
+  margin-bottom: 12px;
+}
+
+/* ══════════════════════════════════════════
+   Hero section
+   ══════════════════════════════════════════ */
+
+.hero-section {
+  position: relative;
+  text-align: center;
+  padding: 32px 8px 28px;
+  margin-bottom: 28px;
+}
+
+.hero-section::before {
+  content: '';
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 280px;
+  height: 180px;
+  background: radial-gradient(ellipse, rgba(142, 125, 190, 0.07) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+@media (min-width: 800px) {
+  .hero-section {
+    padding: 48px 16px 36px;
+  }
+  .hero-section::before {
+    width: 400px;
+    height: 240px;
+    background: radial-gradient(ellipse, rgba(142, 125, 190, 0.06) 0%, transparent 65%);
+  }
+}
+
+/* ══════════════════════════════════════════
+   Decorative line divider
+   ══════════════════════════════════════════ */
+
+.divider-line {
+  width: 24px;
+  height: 2px;
+  background: var(--color-week-purple-light);
+  border-radius: 1px;
+  margin: 16px auto;
+}
+
+/* ══════════════════════════════════════════
+   Scrollable horizontal (hide scrollbar)
+   ══════════════════════════════════════════ */
+
 .scroll-x {
   overflow-x: auto;
   scrollbar-width: none;
@@ -73,4 +225,93 @@ body {
 }
 .scroll-x::-webkit-scrollbar {
   display: none;
+}
+
+/* ══════════════════════════════════════════
+   Status dots for progress grid
+   ══════════════════════════════════════════ */
+
+.status-dot-full {
+  background: var(--color-accent-green);
+}
+.status-dot-light {
+  background: var(--color-accent-yellow);
+}
+.status-dot-missed {
+  border: 1.5px dashed var(--color-text-muted);
+}
+.status-dot-future {
+  background: var(--color-border-subtle);
+}
+.status-dot-today {
+  border: 2px solid var(--color-week-purple-light);
+}
+
+/* ══════════════════════════════════════════
+   Weekly rhythm decorative dots
+   ══════════════════════════════════════════ */
+
+.rhythm-dots {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+.rhythm-dots span {
+  display: block;
+  border-radius: 50%;
+  background: var(--color-week-purple-light);
+  transition: opacity 0.3s;
+}
+
+.rhythm-dots span:nth-child(1) { width: 5px; height: 5px; opacity: 0.25; }
+.rhythm-dots span:nth-child(2) { width: 7px; height: 7px; opacity: 0.35; }
+.rhythm-dots span:nth-child(3) { width: 9px; height: 9px; opacity: 0.5; }
+.rhythm-dots span:nth-child(4) { width: 11px; height: 11px; opacity: 0.8; background: var(--color-week-purple); }
+.rhythm-dots span:nth-child(5) { width: 9px; height: 9px; opacity: 0.5; }
+.rhythm-dots span:nth-child(6) { width: 7px; height: 7px; opacity: 0.35; }
+.rhythm-dots span:nth-child(7) { width: 5px; height: 5px; opacity: 0.25; }
+
+/* ── Subtle connecting line between dots ── */
+.rhythm-dots.with-line {
+  position: relative;
+}
+
+.rhythm-dots.with-line::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: calc(100% - 10px);
+  height: 1px;
+  background: var(--color-week-purple-light);
+  opacity: 0.2;
+  z-index: 0;
+}
+
+.rhythm-dots.with-line span {
+  position: relative;
+  z-index: 1;
+}
+
+/* ══════════════════════════════════════════
+   Desktop two-column grid
+   ══════════════════════════════════════════ */
+
+@media (min-width: 1200px) {
+  .desktop-grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 40px;
+    align-items: start;
+  }
+}
+
+@media (min-width: 1200px) {
+  .desktop-sidebar {
+    position: sticky;
+    top: 40px;
+  }
 }

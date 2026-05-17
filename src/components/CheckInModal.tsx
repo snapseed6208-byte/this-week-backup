@@ -27,124 +27,136 @@ export function CheckInModal({
     existingCheckIn?.value?.toString() ?? "",
   );
 
-  const hasNumericInput = checkInType !== "达标/未达标" && checkInType !== "次数" && checkInType !== "个数" && checkInType !== "件数" && checkInType !== "达标/未达标";
+  const hasNumericInput = checkInType !== "达标/未达标" && checkInType !== "次数" && checkInType !== "个数" && checkInType !== "件数";
 
   return (
     <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center">
-      <div className="absolute inset-0 bg-black/30" onClick={onClose} />
-      <div className="relative bg-white rounded-t-2xl sm:rounded-2xl w-full max-w-sm p-6 pb-8 animate-in slide-in-from-bottom duration-300">
-        <div className="flex items-center justify-between mb-4">
-          <div>
-            <h2 className="text-lg font-semibold text-[#1E293B]">
-              {dayLabel}
-            </h2>
-            <p className="text-xs text-[#64748B]">{date}</p>
+      {/* Backdrop */}
+      <div className="absolute inset-0 bg-[#2C2A28]/40" onClick={onClose} />
+
+      {/* Sheet */}
+      <div className="relative bg-[#FFFCF8] rounded-t-3xl sm:rounded-2xl w-full max-w-sm pb-8 animate-in slide-in-from-bottom duration-300">
+        {/* Gentle top drag indicator */}
+        <div className="flex justify-center pt-3 pb-1">
+          <div className="w-8 h-1 rounded-full bg-[#EAE5DE]" />
+        </div>
+
+        <div className="px-6">
+          {/* ── Header ── */}
+          <div className="flex items-center justify-between mb-5">
+            <div>
+              <h2 className="text-lg font-semibold text-[#2C2A28]">
+                {dayLabel}
+              </h2>
+              <p className="text-xs text-[#BFB8B0] mt-0.5">{date}</p>
+            </div>
+            <button
+              onClick={onClose}
+              className="w-7 h-7 rounded-full bg-[#F0ECE6] flex items-center justify-center text-sm text-[#BFB8B0] hover:text-[#8B8680] hover:bg-[#EAE5DE] transition-all"
+            >
+              ✕
+            </button>
           </div>
-          <button onClick={onClose} className="text-[#94A3B8] text-lg leading-none p-1">
-            ✕
+
+          {/* ── Gentle prompt ── */}
+          <p className="text-sm text-[#8B8680] leading-relaxed mb-5">
+            今天，完成到什么程度就很好。
+          </p>
+
+          {/* ── Status — segmented cards ── */}
+          <div className="flex gap-2.5 mb-5">
+            {[
+              { key: "full" as const, label: "完整完成", desc: "达到目标" },
+              { key: "light" as const, label: "轻量完成", desc: "最低标准" },
+              { key: "missed" as const, label: "未完成", desc: "今天没做" },
+            ].map((opt) => (
+              <button
+                key={opt.key}
+                onClick={() => setStatus(opt.key)}
+                className={cn(
+                  "flex-1 py-3 rounded-xl text-xs transition-all",
+                  status === opt.key
+                    ? opt.key === "full"
+                      ? "bg-[#A8D5BA]/20 text-[#5A8F6E] font-medium ring-1 ring-[#A8D5BA]/40"
+                      : opt.key === "light"
+                        ? "bg-[#E8D5A3]/20 text-[#9A8250] font-medium ring-1 ring-[#E8D5A3]/40"
+                        : "bg-[#E8C5C5]/20 text-[#A06060] font-medium ring-1 ring-[#E8C5C5]/40"
+                    : "bg-[#F0ECE6] text-[#BFB8B0] hover:bg-[#EAE5DE]",
+                )}
+              >
+                <span className="block text-sm font-medium">{opt.label}</span>
+                <span className="block text-[10px] mt-0.5 opacity-60">
+                  {opt.desc}
+                </span>
+              </button>
+            ))}
+          </div>
+
+          {/* ── Numeric value ── */}
+          <div className="mb-4">
+            <label className="text-xs text-[#8B8680] font-medium mb-1.5 block">
+              {checkInType === "达标/未达标" ? "完成情况" : `${checkInType}`}
+            </label>
+            {checkInType === "达标/未达标" ? (
+              <div className="text-sm text-[#8B8680] bg-[#F0ECE6] rounded-xl px-3.5 py-2.5">
+                {status === "full" ? "达标" : status === "light" ? "部分达标" : "未达标"}
+              </div>
+            ) : (
+              <div className="flex items-center gap-2">
+                <input
+                  type="number"
+                  inputMode="numeric"
+                  value={value}
+                  onChange={(e) => setValue(e.target.value)}
+                  placeholder="0"
+                  className="flex-1 rounded-xl border border-[#EAE5DE] px-3.5 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-[#8E7DBE]/40 focus:border-[#8E7DBE]/40 bg-white text-[#2C2A28] placeholder:text-[#BFB8B0]"
+                />
+                <span className="text-xs text-[#BFB8B0] shrink-0">
+                  {checkInType.includes("分钟") ? "分钟"
+                  : checkInType.includes("小时") ? "小时"
+                  : checkInType.includes("字数") ? "字"
+                  : checkInType.includes("页数") ? "页"
+                  : checkInType.includes("题数") ? "题"
+                  : checkInType.includes("件数") ? "件"
+                  : checkInType.includes("杯数") ? "杯"
+                  : checkInType.includes("个数") ? "个"
+                  : checkInType.includes("次数") ? "次"
+                  : checkInType.includes("L") ? "L"
+                  : checkInType.includes("水量") ? "L"
+                  : ""}
+                </span>
+              </div>
+            )}
+          </div>
+
+          {/* ── Journal note ── */}
+          <div className="mb-6">
+            <label className="text-xs text-[#8B8680] font-medium mb-1.5 block">
+              今天的感受
+            </label>
+            <textarea
+              value={note}
+              onChange={(e) => setNote(e.target.value)}
+              placeholder="今天做得怎么样？有什么想记录的..."
+              rows={2}
+              className="w-full rounded-xl border border-[#EAE5DE] px-3.5 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-[#8E7DBE]/40 focus:border-[#8E7DBE]/40 bg-white text-[#2C2A28] placeholder:text-[#BFB8B0] resize-none"
+            />
+          </div>
+
+          {/* ── Save button ── */}
+          <button
+            onClick={() =>
+              onSave(
+                status,
+                note || undefined,
+                value ? Number(value) : undefined,
+              )
+            }
+            className="w-full py-3 rounded-xl font-medium text-sm text-white bg-[#8E7DBE] hover:bg-[#7D6DAE] active:opacity-90 transition-all"
+          >
+            保存今天的记录
           </button>
         </div>
-
-        {/* Status selection */}
-        <div className="flex gap-2 mb-4">
-          {[
-            { key: "full" as const, label: "✅ 完整完成", desc: "达到目标" },
-            { key: "light" as const, label: "🌱 轻量完成", desc: "只做了最低标准" },
-            { key: "missed" as const, label: "💤 未完成", desc: "今天没做" },
-          ].map((opt) => (
-            <button
-              key={opt.key}
-              onClick={() => setStatus(opt.key)}
-              className={cn(
-                "flex-1 py-2.5 rounded-xl text-sm font-medium transition-all",
-                status === opt.key
-                  ? opt.key === "full"
-                    ? "bg-emerald-50 text-emerald-700 ring-2 ring-emerald-400"
-                    : opt.key === "light"
-                      ? "bg-amber-50 text-amber-700 ring-2 ring-amber-400"
-                      : "bg-slate-100 text-slate-600 ring-2 ring-slate-300"
-                  : "bg-gray-50 text-[#94A3B8]",
-              )}
-            >
-              <span className="block text-xs">{opt.label}</span>
-            </button>
-          ))}
-        </div>
-
-        {/* Numeric value input (for things like minutes, pages, count) */}
-        <div className="mb-4">
-          <label className="text-xs text-[#64748B] font-medium mb-1 block">
-            {checkInType === "达标/未达标" ? "完成情况" : `${checkInType}（选填）`}
-          </label>
-          {checkInType === "达标/未达标" ? (
-            <div className="text-sm text-[#64748B] bg-gray-50 rounded-lg px-3 py-2">
-              {status === "full" ? "✅ 达标" : status === "light" ? "🌱 部分达标" : "💤 未达标"}
-            </div>
-          ) : (
-            <div className="flex items-center gap-2">
-              <input
-                type="number"
-                inputMode="numeric"
-                value={value}
-                onChange={(e) => setValue(e.target.value)}
-                placeholder="输入数值"
-                className="flex-1 rounded-lg border border-[#E2E8F0] px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#8B5CF6] focus:border-transparent bg-white"
-              />
-              <span className="text-xs text-[#94A3B8] shrink-0">
-                {checkInType.includes("分钟")
-                  ? "分钟"
-                  : checkInType.includes("小时")
-                    ? "小时"
-                    : checkInType.includes("字数")
-                      ? "字"
-                      : checkInType.includes("页数")
-                        ? "页"
-                        : checkInType.includes("题数")
-                          ? "题"
-                          : checkInType.includes("件数")
-                            ? "件"
-                            : checkInType.includes("杯数")
-                              ? "杯"
-                              : checkInType.includes("个数")
-                                ? "个"
-                                : checkInType.includes("次数")
-                                  ? "次"
-                                  : checkInType.includes("L")
-                                    ? "L"
-                                    : checkInType.includes("水量")
-                                      ? "L"
-                                      : ""}
-              </span>
-            </div>
-          )}
-        </div>
-
-        {/* Note */}
-        <div className="mb-6">
-          <label className="text-xs text-[#64748B] font-medium mb-1 block">
-            一句话记录（选填）
-          </label>
-          <input
-            type="text"
-            value={note}
-            onChange={(e) => setNote(e.target.value)}
-            placeholder="今天做得怎么样？有什么感受？"
-            className="w-full rounded-lg border border-[#E2E8F0] px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#8B5CF6] focus:border-transparent bg-white"
-          />
-        </div>
-
-        <button
-          onClick={() =>
-            onSave(
-              status,
-              note || undefined,
-              value ? Number(value) : undefined,
-            )
-          }
-          className="w-full py-3 rounded-xl font-medium text-white bg-gradient-to-r from-[#8B5CF6] to-[#7C3AED] active:opacity-90 transition-opacity"
-        >
-          保存打卡
-        </button>
       </div>
     </div>
   );

@@ -27,10 +27,14 @@ export function HistoryPage() {
   return (
     <Layout title="历史记录">
       {weeks.length === 0 ? (
-        <div className="text-center py-16">
-          <p className="text-3xl mb-3">📋</p>
-          <p className="text-sm text-[#64748B]">还没有完成任何主题周</p>
-          <p className="text-xs text-[#94A3B8] mt-1">去主题库开启你的第一个主题周吧</p>
+        <div className="text-center py-20">
+          <div className="w-14 h-14 rounded-full bg-[#F0ECE6] flex items-center justify-center mx-auto mb-4">
+            <Calendar className="h-6 w-6 text-[#BFB8B0]" />
+          </div>
+          <p className="text-sm text-[#8B8680]">还没有完成任何主题周</p>
+          <p className="text-xs text-[#BFB8B0] mt-1.5">
+            去主题库开启你的第一个主题周吧
+          </p>
         </div>
       ) : (
         <div className="space-y-3">
@@ -45,84 +49,99 @@ export function HistoryPage() {
 
             return (
               <div key={week.id} className="card">
+                {/* ── Card header (always visible) ── */}
                 <div
                   className="flex items-center gap-3 cursor-pointer"
                   onClick={() => toggleExpand(week.id)}
                 >
                   <div
-                    className="w-10 h-10 rounded-xl flex items-center justify-center text-lg shrink-0"
-                    style={{ backgroundColor: `${week.color}18` }}
+                    className="w-9 h-9 rounded-xl flex items-center justify-center text-base shrink-0"
+                    style={{ backgroundColor: `${week.color}14` }}
                   >
                     {iconMap[week.icon] || "📌"}
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2">
-                      <h3 className="font-semibold text-[#1E293B] text-sm">
+                      <h3 className="font-medium text-[#2C2A28] text-sm">
                         {week.themeTitle}
                       </h3>
                       <span
                         className={cn(
-                          "text-[10px] px-1.5 py-0.5 rounded-full",
+                          "text-[10px] px-2 py-0.5 rounded-full leading-relaxed",
                           week.status === "completed"
-                            ? "bg-emerald-100 text-emerald-700"
-                            : "bg-gray-100 text-gray-500",
+                            ? "bg-[#A8D5BA]/20 text-[#5A8F6E]"
+                            : "bg-[#E8C5C5]/20 text-[#A06060]",
                         )}
                       >
                         {week.status === "completed" ? "完成" : "中断"}
                       </span>
                     </div>
-                    <p className="text-xs text-[#94A3B8] mt-0.5">
+                    <p className="text-xs text-[#BFB8B0] mt-0.5">
                       {week.category} · {week.startDate} ~ {week.endDate}
                     </p>
                   </div>
                   <div className="text-right shrink-0">
-                    <p className="text-lg font-bold text-[#8B5CF6]">
+                    <p className="text-lg font-semibold text-[#8E7DBE]">
                       {completedDays}
                     </p>
-                    <p className="text-[10px] text-[#94A3B8]">/ 7 天</p>
+                    <p className="text-[10px] text-[#BFB8B0]">/ 7 天</p>
                   </div>
                   {isExpanded ? (
-                    <ChevronUp className="h-4 w-4 text-[#94A3B8]" />
+                    <ChevronUp className="h-4 w-4 text-[#BFB8B0] shrink-0" />
                   ) : (
-                    <ChevronDown className="h-4 w-4 text-[#94A3B8]" />
+                    <ChevronDown className="h-4 w-4 text-[#BFB8B0] shrink-0" />
                   )}
                 </div>
 
+                {/* ── Expanded details ── */}
                 {isExpanded && (
-                  <div className="mt-3 pt-3 border-t border-[#F1F5F9] space-y-3 animate-in fade-in slide-in-from-top-2 duration-200">
-                    {/* Completion stats */}
-                    <div className="grid grid-cols-3 gap-2">
-                      <div className="text-center p-2 bg-emerald-50 rounded-lg">
-                        <p className="text-lg font-bold text-emerald-600">{fullDays}</p>
-                        <p className="text-[10px] text-emerald-600/70">完整完成</p>
+                  <div className="mt-4 pt-4 border-t border-[#F0ECE6] space-y-4 animate-in fade-in slide-in-from-top-2 duration-200">
+                    {/* Stats */}
+                    <div className="grid grid-cols-3 gap-2.5">
+                      <div className="text-center p-3 rounded-xl bg-[#A8D5BA]/10">
+                        <p className="text-lg font-semibold text-[#5A8F6E]">
+                          {fullDays}
+                        </p>
+                        <p className="text-[10px] text-[#5A8F6E]/60 mt-0.5">
+                          完整完成
+                        </p>
                       </div>
-                      <div className="text-center p-2 bg-amber-50 rounded-lg">
-                        <p className="text-lg font-bold text-amber-600">
+                      <div className="text-center p-3 rounded-xl bg-[#E8D5A3]/10">
+                        <p className="text-lg font-semibold text-[#9A8250]">
                           {completedDays - fullDays}
                         </p>
-                        <p className="text-[10px] text-amber-600/70">轻量完成</p>
+                        <p className="text-[10px] text-[#9A8250]/60 mt-0.5">
+                          轻量完成
+                        </p>
                       </div>
-                      <div className="text-center p-2 bg-gray-50 rounded-lg">
-                        <p className="text-lg font-bold text-gray-500">
+                      <div className="text-center p-3 rounded-xl bg-[#F0ECE6]">
+                        <p className="text-lg font-semibold text-[#8B8680]">
                           {7 - completedDays}
                         </p>
-                        <p className="text-[10px] text-gray-500/70">未完成</p>
+                        <p className="text-[10px] text-[#8B8680]/60 mt-0.5">
+                          未完成
+                        </p>
                       </div>
                     </div>
 
-                    {/* Daily check-in notes */}
+                    {/* Notes */}
                     {week.checkIns.filter((c) => c.note).length > 0 && (
                       <div>
-                        <p className="text-xs text-[#94A3B8] mb-1">📝 打卡记录</p>
-                        <div className="space-y-1">
+                        <p className="text-xs text-[#BFB8B0] mb-2">打卡记录</p>
+                        <div className="space-y-1.5">
                           {week.checkIns
                             .filter((c) => c.note)
                             .map((c) => (
-                              <p key={c.date} className="text-xs text-[#64748B]">
-                                <span className="text-[#94A3B8]">{c.date}:</span>{" "}
+                              <p
+                                key={c.date}
+                                className="text-xs text-[#8B8680] leading-relaxed"
+                              >
+                                <span className="text-[#BFB8B0]">
+                                  {c.date}:
+                                </span>{" "}
                                 {c.note}
                                 {c.value !== undefined && (
-                                  <span className="text-[#94A3B8]">
+                                  <span className="text-[#BFB8B0]">
                                     {" "}
                                     ({c.value})
                                   </span>
@@ -135,21 +154,23 @@ export function HistoryPage() {
 
                     {/* Review */}
                     {week.review && (
-                      <div className="bg-[#FDFBF7] rounded-lg p-3 space-y-2">
-                        <p className="text-xs font-medium text-[#64748B]">💡 周复盘</p>
-                        <div className="space-y-1">
-                          <p className="text-xs text-[#1E293B]">
-                            <span className="text-[#94A3B8]">收获:</span>{" "}
+                      <div className="bg-[#F8F6F2] rounded-xl p-4 space-y-2.5">
+                        <p className="text-xs font-medium text-[#8B8680]">
+                          周复盘
+                        </p>
+                        <div className="space-y-1.5">
+                          <p className="text-xs text-[#2C2A28] leading-relaxed">
+                            <span className="text-[#BFB8B0]">收获: </span>
                             {week.review.biggestGain}
                           </p>
-                          <p className="text-xs text-[#1E293B]">
-                            <span className="text-[#94A3B8]">困难:</span>{" "}
+                          <p className="text-xs text-[#2C2A28] leading-relaxed">
+                            <span className="text-[#BFB8B0]">困难: </span>
                             {week.review.struggleReason}
                           </p>
-                          <p className="text-xs text-[#64748B]">
+                          <p className="text-xs text-[#8B8680]">
                             {week.review.continueNextWeek
-                              ? "✅ 下周继续这个主题"
-                              : "🔄 下周换一个主题"}
+                              ? "下周继续这个主题"
+                              : "下周换一个主题"}
                           </p>
                         </div>
                       </div>

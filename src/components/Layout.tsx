@@ -20,27 +20,34 @@ export function Layout({ children, title }: LayoutProps) {
   return (
     <div className="page-container">
       {title && (
-        <header className="mb-4">
-          <h1 className="text-xl font-bold text-[#1E293B]">{title}</h1>
+        <header className="mb-6">
+          <h1 className="text-xl font-semibold tracking-tight text-[#2C2A28]">
+            {title}
+          </h1>
         </header>
       )}
       <main>{children}</main>
       <nav className="bottom-nav">
-        {navItems.map(({ path, icon: Icon, label }) => (
-          <button
-            key={path}
-            onClick={() => navigate(path)}
-            className={cn(
-              "flex flex-col items-center gap-0.5 px-4 py-1 text-xs transition-colors",
-              location === path
-                ? "text-[#8B5CF6] font-medium"
-                : "text-[#94A3B8] hover:text-[#64748B]",
-            )}
-          >
-            <Icon className="h-5 w-5" />
-            <span>{label}</span>
-          </button>
-        ))}
+        <div className="bottom-nav-inner">
+          {navItems.map(({ path, icon: Icon, label }) => (
+            <button
+              key={path}
+              onClick={() => navigate(path)}
+              className={cn(
+                "flex flex-col items-center gap-0.5 px-5 py-1 text-[11px] tracking-wide transition-colors",
+                location === path
+                  ? "text-[#8E7DBE] font-medium"
+                  : "text-[#BFB8B0]",
+              )}
+            >
+              <Icon className={cn(
+                "h-5 w-5 transition-colors",
+                location === path ? "text-[#8E7DBE]" : "text-[#C8C2BA]",
+              )} />
+              <span>{label}</span>
+            </button>
+          ))}
+        </div>
       </nav>
     </div>
   );
