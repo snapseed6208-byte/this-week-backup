@@ -424,12 +424,11 @@ export function HomePage() {
          END WEEK REVIEW MODAL
          ══════════════════════════════════════════ */}
       {showReview && activeWeek && (
-        <div className="mobile-overlay">
+        <div className="mobile-overlay" onClick={() => setShowReview(false)}>
           <div
-            className="absolute inset-0 bg-[#2F2D28]/40"
-            onClick={() => setShowReview(false)}
-          />
-          <div className="mobile-sheet bg-[#FFFDF8] rounded-t-2xl sm:rounded-2xl max-w-sm animate-in slide-in-from-bottom duration-300">
+            className="mobile-sheet bg-[#FFFDF8] rounded-t-2xl sm:rounded-2xl max-w-sm animate-in slide-in-from-bottom duration-300"
+            onClick={(e) => e.stopPropagation()}
+          >
             {/* ── Header (fixed) ── */}
             <div className="shrink-0 px-6 pt-2">
               <h2 className="text-lg font-semibold text-[#2F2D28] mb-1">

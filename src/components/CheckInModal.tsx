@@ -30,12 +30,12 @@ export function CheckInModal({
   const hasNumericInput = checkInType !== "达标/未达标" && checkInType !== "次数" && checkInType !== "个数" && checkInType !== "件数";
 
   return (
-    <div className="mobile-overlay">
-      {/* Backdrop */}
-      <div className="absolute inset-0 bg-[#2F2D28]/40" onClick={onClose} />
-
-      {/* Sheet — flex column, dvh-based height, rounded top */}
-      <div className="mobile-sheet bg-[#FFFDF8] rounded-t-3xl sm:rounded-2xl max-w-sm animate-in slide-in-from-bottom duration-300">
+    <div className="mobile-overlay" onClick={onClose}>
+      {/* Sheet — flex column, dvh-based height, rounded top, stops propagation so overlay close doesn't fire */}
+      <div
+        className="mobile-sheet bg-[#FFFDF8] rounded-t-3xl sm:rounded-2xl max-w-sm animate-in slide-in-from-bottom duration-300"
+        onClick={(e) => e.stopPropagation()}
+      >
         {/* Drag indicator */}
         <div className="flex justify-center pt-3 pb-1 shrink-0">
           <div className="w-8 h-1 rounded-full bg-[#E8E1D6]" />

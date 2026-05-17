@@ -140,6 +140,12 @@ export function getWeekDates(startDate: string): string[] {
   return dates;
 }
 
+// ── Clear ALL user-generated data (for testing / reset) ──
+export function clearAllData(): void {
+  localStorage.removeItem(STORAGE_KEY);
+  localStorage.removeItem(CHECKIN_KEY);
+}
+
 export const CATEGORY_COLORS: Record<ThemeCategory, string> = {
   "学习成长": "#6366F1",
   "英语提升": "#3B82F6",

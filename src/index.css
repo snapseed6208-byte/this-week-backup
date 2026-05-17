@@ -324,7 +324,9 @@ body {
    Unified mobile bottom sheet / modal system
    ══════════════════════════════════════════ */
 
-/* Overlay — fixed backdrop, above bottom nav (z-50) */
+/* Overlay — fixed backdrop, above bottom nav (z-50).
+   The overlay itself provides the dimmed background and handles close-on-click.
+   Inner sheets use stopPropagation to prevent closing when interacting with content. */
 .mobile-overlay {
   position: fixed;
   inset: 0;
@@ -332,6 +334,7 @@ body {
   display: flex;
   align-items: flex-end;
   justify-content: center;
+  background: rgba(47, 45, 40, 0.4);
 }
 
 @media (min-width: 640px) {
@@ -340,13 +343,17 @@ body {
   }
 }
 
-/* Bottom sheet container — dvh-based height, flex column */
+/* Bottom sheet container — dvh-based height, flex column.
+   Must be positioned (relative + z-index) to stack above the overlay's
+   own background, which is part of the same element. */
 .mobile-sheet {
   width: 100%;
   max-height: calc(100dvh - 64px);
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  position: relative;
+  z-index: 1;
 }
 
 /* Scrollable content area inside sheet */
@@ -356,10 +363,14 @@ body {
   -webkit-overflow-scrolling: touch;
 }
 
-/* Sticky footer for action buttons — safe-area padded */
+/* Sticky footer for action buttons — safe-area padded.
+   Sticky ensures the footer stays at the bottom when content scrolls,
+   and position: relative + z-index keeps it above scrollable content. */
 .mobile-sheet-footer {
   flex-shrink: 0;
-  position: relative;
+  position: sticky;
+  bottom: 0;
+  z-index: 2;
   background: inherit;
 }
 

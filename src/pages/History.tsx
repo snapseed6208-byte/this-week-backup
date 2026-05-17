@@ -1,17 +1,26 @@
 import { useState } from "react";
 import { Layout } from "@/components/Layout";
-import { getAllHistoricalWeeks } from "@/lib/storage";
+import { getAllHistoricalWeeks, clearAllData } from "@/lib/storage";
 import { cn } from "@/lib/utils";
 import type { ThemeWeek } from "@/lib/types";
 import { getIconComponent } from "@/lib/icon-map";
-import { Calendar, ChevronDown, ChevronUp } from "lucide-react";
+import { Calendar, ChevronDown, ChevronUp, Trash2 } from "lucide-react";
 
 export function HistoryPage() {
   const [expandedId, setExpandedId] = useState<string | null>(null);
+  const [resetKey, setResetKey] = useState(0);
+  const [showClearConfirm, setShowClearConfirm] = useState(false);
   const weeks = getAllHistoricalWeeks();
 
   const toggleExpand = (id: string) => {
     setExpandedId(expandedId === id ? null : id);
+  };
+
+  const handleClear = () => {
+    clearAllData();
+    setShowClearConfirm(false);
+    setResetKey((k) => k + 1);
+    setExpandedId(null);
   };
 
   return (
@@ -173,6 +182,60 @@ export function HistoryPage() {
               </div>
             );
           })}
+        </div>
+      )}
+
+      {/* ── Clear test data section (always visible) ── */}
+      <div className="mt-10 pt-6 border-t border-[#F3EFE8]">
+        <p className="text-[11px] font-medium text-[#BFB8AD] tracking-wide mb-3">
+          测试与数据
+        </p>
+        <button
+          onClick={() => setShowClearConfirm(true)}
+          className="flex items-center gap-2 text-sm text-[#BFB8AD] hover:text-[#A06060] transition-colors"
+        >
+          <Trash2 className="h-3.5 w-3.5" />
+          清除所有本地数据
+        </button>
+      </div>
+
+      {/* ══════════════════════════════════════════
+         CLEAR DATA CONFIRMATION MODAL
+         ══════════════════════════════════════════ */}
+      {showClearConfirm && (
+        <div className="mobile-overlay" onClick={() => setShowClearConfirm(false)}>
+          <div
+            className="mobile-sheet bg-[#FFFDF8] rounded-t-2xl sm:rounded-2xl max-w-sm animate-in slide-in-from-bottom duration-300"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* ── Header ── */}
+            <div className="shrink-0 px-6 pt-6">
+              <h2 className="text-lg font-semibold text-[#2F2D28] mb-2">
+                确定要清除所有记录吗？
+              </h2>
+              <p className="text-sm text-[#8B867D] leading-relaxed">
+                这会删除当前主题周、历史记录、打卡记录和复盘内容。此操作不能恢复。
+              </p>
+            </div>
+
+            {/* ── Footer — action buttons ── */}
+            <div className="mobile-sheet-footer px-6 pt-5 pb-1 safe-bottom">
+              <div className="space-y-2.5">
+                <button
+                  onClick={() => setShowClearConfirm(false)}
+                  className="w-full py-2.5 rounded-xl font-medium text-sm border border-[#E8E1D6] text-[#8B867D] hover:bg-[#F7F4EC] transition-colors"
+                >
+                  取消
+                </button>
+                <button
+                  onClick={handleClear}
+                  className="w-full py-2.5 rounded-xl font-medium text-sm text-white bg-[#E8C5C5] hover:bg-[#D4A0A0] active:opacity-90 transition-colors"
+                >
+                  确认清除
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       )}
     </Layout>
