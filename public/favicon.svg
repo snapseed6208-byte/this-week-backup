@@ -1,54 +1,38 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
   <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="0.5" y2="1">
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0%" stop-color="#FFFDF8"/>
       <stop offset="100%" stop-color="#F7F4EC"/>
     </linearGradient>
+    <linearGradient id="wGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#8FA58E"/>
+      <stop offset="100%" stop-color="#5F705B"/>
+    </linearGradient>
   </defs>
 
-  <!-- Rounded square background -->
-  <rect width="512" height="512" rx="108" fill="url(#bg)"/>
-  <rect width="512" height="512" rx="108" fill="none" stroke="#E8E1D6" stroke-width="4"/>
+  <!-- Rounded square with warm cream gradient -->
+  <rect width="512" height="512" rx="108" fill="url(#bgGrad)"/>
+  <rect width="512" height="512" rx="108" fill="none" stroke="#D8D2C3" stroke-width="3"/>
 
-  <!--
-    Seven dots forming a gentle wave — representing a week's rhythm.
-    The wave arcs upward from left to right, with the center dot as the peak.
-    Dots graduate in size: small → medium → large → peak → large → medium → small.
-    A continuous curved path behind the dots reinforces the "rhythm / cycle" idea.
-  -->
+  <!-- Subtle connecting arc for the 7 rhythm dots -->
+  <path d="M 148 185 Q 256 130 364 185" fill="none" stroke="#D8D2C3" stroke-width="2" opacity="0.3"/>
 
-  <!-- Connecting arc path (visible as a subtle guide) -->
-  <path d="M 76 332
-           Q 130 324, 170 304
-           Q 210 284, 256 262
-           Q 302 284, 342 304
-           Q 382 324, 436 332"
-        fill="none" stroke="#DDE7D8" stroke-width="4" stroke-linecap="round" opacity="0.4"/>
+  <!-- 7 rhythm dots — gentle wave growing toward the center (today) -->
+  <circle cx="170" cy="178" r="6"  fill="#8FA58E" opacity="0.30"/>
+  <circle cx="202" cy="163" r="8"  fill="#8FA58E" opacity="0.45"/>
+  <circle cx="238" cy="152" r="10" fill="#8FA58E" opacity="0.65"/>
+  <circle cx="256" cy="148" r="13" fill="#8FA58E" opacity="1"/>
+  <circle cx="274" cy="152" r="10" fill="#8FA58E" opacity="0.65"/>
+  <circle cx="310" cy="163" r="8"  fill="#8FA58E" opacity="0.45"/>
+  <circle cx="342" cy="178" r="6"  fill="#8FA58E" opacity="0.30"/>
 
-  <!-- Day 1 (Mon) — outer left, smallest -->
-  <circle cx="106" cy="328" r="18" fill="#8FA58E" opacity="0.35"/>
+  <!-- Inner highlight on the center (today) dot -->
+  <circle cx="256" cy="148" r="5" fill="#FFFDF8" opacity="0.25"/>
 
-  <!-- Day 2 (Tue) -->
-  <circle cx="160" cy="310" r="23" fill="#8FA58E" opacity="0.5"/>
+  <!-- Abstract W — two flowing strokes like gentle leaves / overlapping waves -->
+  <path d="M 145 248 C 180 355, 228 355, 256 235" fill="none" stroke="url(#wGrad)" stroke-width="28" stroke-linecap="round"/>
+  <path d="M 256 235 C 284 355, 332 355, 367 248" fill="none" stroke="url(#wGrad)" stroke-width="28" stroke-linecap="round"/>
 
-  <!-- Day 3 (Wed) -->
-  <circle cx="214" cy="280" r="30" fill="#8FA58E" opacity="0.7"/>
-
-  <!-- Day 4 (Thu — center/peak, "today") -->
-  <circle cx="256" cy="262" r="46" fill="#8FA58E" opacity="1"/>
-  <!-- Inner highlight on center dot -->
-  <circle cx="256" cy="262" r="18" fill="#FFFDF8" opacity="0.2"/>
-
-  <!-- Day 5 (Fri) -->
-  <circle cx="298" cy="280" r="30" fill="#8FA58E" opacity="0.7"/>
-
-  <!-- Day 6 (Sat) -->
-  <circle cx="352" cy="310" r="23" fill="#8FA58E" opacity="0.5"/>
-
-  <!-- Day 7 (Sun) — outer right, smallest -->
-  <circle cx="406" cy="328" r="18" fill="#8FA58E" opacity="0.35"/>
-
-  <!-- Subtle accent arc behind center (stronger) -->
-  <path d="M 170 300 Q 256 245 342 300"
-        fill="none" stroke="#8FA58E" stroke-width="3" stroke-linecap="round" opacity="0.12"/>
+  <!-- Gold sparkle — "给这一周一点方向" -->
+  <path d="M 295 128 Q 298 140 310 143 Q 298 146 295 158 Q 292 146 280 143 Q 292 140 295 128 Z" fill="#C9A66B" opacity="0.9"/>
 </svg>
