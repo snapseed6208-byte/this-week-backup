@@ -32,13 +32,13 @@ export function CheckInModal({
   return (
     <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center">
       {/* Backdrop */}
-      <div className="absolute inset-0 bg-[#2C2A28]/40" onClick={onClose} />
+      <div className="absolute inset-0 bg-[#2F2D28]/40" onClick={onClose} />
 
       {/* Sheet */}
-      <div className="relative bg-[#FFFCF8] rounded-t-3xl sm:rounded-2xl w-full max-w-sm flex flex-col max-h-[85dvh] animate-in slide-in-from-bottom duration-300">
+      <div className="relative bg-[#FFFDF8] rounded-t-3xl sm:rounded-2xl w-full max-w-sm flex flex-col max-h-[85dvh] animate-in slide-in-from-bottom duration-300">
         {/* Gentle top drag indicator (stays visible) */}
         <div className="flex justify-center pt-3 pb-1 shrink-0">
-          <div className="w-8 h-1 rounded-full bg-[#EAE5DE]" />
+          <div className="w-8 h-1 rounded-full bg-[#E8E1D6]" />
         </div>
 
         {/* Scrollable content with safe-area bottom clearance */}
@@ -46,30 +46,30 @@ export function CheckInModal({
           {/* ── Header ── */}
           <div className="flex items-center justify-between mb-5">
             <div>
-              <h2 className="text-lg font-semibold text-[#2C2A28]">
+              <h2 className="text-lg font-semibold text-[#2F2D28]">
                 {dayLabel}
               </h2>
-              <p className="text-xs text-[#BFB8B0] mt-0.5">{date}</p>
+              <p className="text-xs text-[#BFB8AD] mt-0.5">{date}</p>
             </div>
             <button
               onClick={onClose}
-              className="w-7 h-7 rounded-full bg-[#F0ECE6] flex items-center justify-center text-sm text-[#BFB8B0] hover:text-[#8B8680] hover:bg-[#EAE5DE] transition-all"
+              className="w-7 h-7 rounded-full bg-[#F3EFE8] flex items-center justify-center text-sm text-[#BFB8AD] hover:text-[#8B867D] hover:bg-[#E8E1D6] transition-all"
             >
               ✕
             </button>
           </div>
 
           {/* ── Gentle prompt ── */}
-          <p className="text-sm text-[#8B8680] leading-relaxed mb-5">
+          <p className="text-sm text-[#8B867D] leading-relaxed mb-5">
             今天，完成到什么程度就很好。
           </p>
 
           {/* ── Status — segmented cards ── */}
           <div className="flex gap-2.5 mb-5">
             {[
-              { key: "full" as const, label: "完整完成", desc: "达到目标" },
-              { key: "light" as const, label: "轻量完成", desc: "最低标准" },
-              { key: "missed" as const, label: "未完成", desc: "今天没做" },
+              { key: "full" as const, label: "好好完成", desc: "达到目标" },
+              { key: "light" as const, label: "轻轻做了", desc: "最低标准" },
+              { key: "missed" as const, label: "今天休息", desc: "今天没做" },
             ].map((opt) => (
               <button
                 key={opt.key}
@@ -82,7 +82,7 @@ export function CheckInModal({
                       : opt.key === "light"
                         ? "bg-[#E8D5A3]/20 text-[#9A8250] font-medium ring-1 ring-[#E8D5A3]/40"
                         : "bg-[#E8C5C5]/20 text-[#A06060] font-medium ring-1 ring-[#E8C5C5]/40"
-                    : "bg-[#F0ECE6] text-[#BFB8B0] hover:bg-[#EAE5DE]",
+                    : "bg-[#F3EFE8] text-[#BFB8AD] hover:bg-[#E8E1D6]",
                 )}
               >
                 <span className="block text-sm font-medium">{opt.label}</span>
@@ -95,11 +95,11 @@ export function CheckInModal({
 
           {/* ── Numeric value ── */}
           <div className="mb-4">
-            <label className="text-xs text-[#8B8680] font-medium mb-1.5 block">
+            <label className="text-xs text-[#8B867D] font-medium mb-1.5 block">
               {checkInType === "达标/未达标" ? "完成情况" : `${checkInType}`}
             </label>
             {checkInType === "达标/未达标" ? (
-              <div className="text-sm text-[#8B8680] bg-[#F0ECE6] rounded-xl px-3.5 py-2.5">
+              <div className="text-sm text-[#8B867D] bg-[#F3EFE8] rounded-xl px-3.5 py-2.5">
                 {status === "full" ? "达标" : status === "light" ? "部分达标" : "未达标"}
               </div>
             ) : (
@@ -110,9 +110,9 @@ export function CheckInModal({
                   value={value}
                   onChange={(e) => setValue(e.target.value)}
                   placeholder="0"
-                  className="flex-1 rounded-xl border border-[#EAE5DE] px-3.5 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-[#8E7DBE]/40 focus:border-[#8E7DBE]/40 bg-white text-[#2C2A28] placeholder:text-[#BFB8B0]"
+                  className="flex-1 rounded-xl border border-[#E8E1D6] px-3.5 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-[#8FA58E]/40 focus:border-[#8FA58E]/40 bg-white text-[#2F2D28] placeholder:text-[#BFB8AD]"
                 />
-                <span className="text-xs text-[#BFB8B0] shrink-0">
+                <span className="text-xs text-[#BFB8AD] shrink-0">
                   {checkInType.includes("分钟") ? "分钟"
                   : checkInType.includes("小时") ? "小时"
                   : checkInType.includes("字数") ? "字"
@@ -132,7 +132,7 @@ export function CheckInModal({
 
           {/* ── Journal note ── */}
           <div className="mb-6">
-            <label className="text-xs text-[#8B8680] font-medium mb-1.5 block">
+            <label className="text-xs text-[#8B867D] font-medium mb-1.5 block">
               今天的感受
             </label>
             <textarea
@@ -140,7 +140,7 @@ export function CheckInModal({
               onChange={(e) => setNote(e.target.value)}
               placeholder="今天做得怎么样？有什么想记录的..."
               rows={2}
-              className="w-full rounded-xl border border-[#EAE5DE] px-3.5 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-[#8E7DBE]/40 focus:border-[#8E7DBE]/40 bg-white text-[#2C2A28] placeholder:text-[#BFB8B0] resize-none"
+              className="w-full rounded-xl border border-[#E8E1D6] px-3.5 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-[#8FA58E]/40 focus:border-[#8FA58E]/40 bg-white text-[#2F2D28] placeholder:text-[#BFB8AD] resize-none"
             />
           </div>
 
@@ -153,7 +153,7 @@ export function CheckInModal({
                 value ? Number(value) : undefined,
               )
             }
-            className="w-full py-3 rounded-xl font-medium text-sm text-white bg-[#8E7DBE] hover:bg-[#7D6DAE] active:opacity-90 transition-all"
+            className="w-full py-3 rounded-xl font-medium text-sm text-white bg-[#8FA58E] hover:bg-[#7A9279] active:opacity-90 transition-all"
           >
             保存今天的记录
           </button>

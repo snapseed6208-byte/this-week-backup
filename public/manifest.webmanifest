@@ -4,8 +4,8 @@
   "description": "每周一个主题，七天一个小行动，累积属于你的生活改变。",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#F8F6F2",
-  "theme_color": "#8E7DBE",
+  "background_color": "#F7F4EC",
+  "theme_color": "#8FA58E",
   "orientation": "portrait",
   "icons": [
     {

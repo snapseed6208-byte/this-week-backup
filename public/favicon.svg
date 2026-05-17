@@ -1,14 +1,14 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="0.5" y2="1">
-      <stop offset="0%" stop-color="#FFFCF8"/>
-      <stop offset="100%" stop-color="#F8F6F2"/>
+      <stop offset="0%" stop-color="#FFFDF8"/>
+      <stop offset="100%" stop-color="#F7F4EC"/>
     </linearGradient>
   </defs>
 
   <!-- Rounded square background -->
   <rect width="512" height="512" rx="108" fill="url(#bg)"/>
-  <rect width="512" height="512" rx="108" fill="none" stroke="#EAE5DE" stroke-width="4"/>
+  <rect width="512" height="512" rx="108" fill="none" stroke="#E8E1D6" stroke-width="4"/>
 
   <!--
     Seven dots forming a gentle wave — representing a week's rhythm.
@@ -23,32 +23,32 @@
            Q 210 284, 256 262
            Q 302 284, 342 304
            Q 382 324, 436 332"
-        fill="none" stroke="#D9D0E8" stroke-width="4" stroke-linecap="round" opacity="0.35"/>
+        fill="none" stroke="#DDE7D8" stroke-width="4" stroke-linecap="round" opacity="0.4"/>
 
   <!-- Day 1 (Mon) — outer left, smallest -->
-  <circle cx="106" cy="328" r="18" fill="#8E7DBE" opacity="0.35"/>
+  <circle cx="106" cy="328" r="18" fill="#8FA58E" opacity="0.35"/>
 
   <!-- Day 2 (Tue) -->
-  <circle cx="160" cy="310" r="23" fill="#8E7DBE" opacity="0.5"/>
+  <circle cx="160" cy="310" r="23" fill="#8FA58E" opacity="0.5"/>
 
   <!-- Day 3 (Wed) -->
-  <circle cx="214" cy="280" r="30" fill="#8E7DBE" opacity="0.7"/>
+  <circle cx="214" cy="280" r="30" fill="#8FA58E" opacity="0.7"/>
 
   <!-- Day 4 (Thu — center/peak, "today") -->
-  <circle cx="256" cy="262" r="46" fill="#8E7DBE" opacity="1"/>
+  <circle cx="256" cy="262" r="46" fill="#8FA58E" opacity="1"/>
   <!-- Inner highlight on center dot -->
-  <circle cx="256" cy="262" r="18" fill="#FFFCF8" opacity="0.2"/>
+  <circle cx="256" cy="262" r="18" fill="#FFFDF8" opacity="0.2"/>
 
   <!-- Day 5 (Fri) -->
-  <circle cx="298" cy="280" r="30" fill="#8E7DBE" opacity="0.7"/>
+  <circle cx="298" cy="280" r="30" fill="#8FA58E" opacity="0.7"/>
 
   <!-- Day 6 (Sat) -->
-  <circle cx="352" cy="310" r="23" fill="#8E7DBE" opacity="0.5"/>
+  <circle cx="352" cy="310" r="23" fill="#8FA58E" opacity="0.5"/>
 
   <!-- Day 7 (Sun) — outer right, smallest -->
-  <circle cx="406" cy="328" r="18" fill="#8E7DBE" opacity="0.35"/>
+  <circle cx="406" cy="328" r="18" fill="#8FA58E" opacity="0.35"/>
 
   <!-- Subtle accent arc behind center (stronger) -->
   <path d="M 170 300 Q 256 245 342 300"
-        fill="none" stroke="#8E7DBE" stroke-width="3" stroke-linecap="round" opacity="0.12"/>
+        fill="none" stroke="#8FA58E" stroke-width="3" stroke-linecap="round" opacity="0.12"/>
 </svg>

@@ -11,42 +11,8 @@ import {
   MOOD_LABELS,
 } from "@/lib/themes";
 import type { ThemeCategory, UserMood } from "@/lib/types";
-import { Search, Sparkles, ChevronRight, ArrowRight } from "lucide-react";
-
-const ICON_MAP: Record<string, string> = {
-  BookOpen: "📖", BookMarked: "📑", RotateCcw: "🔄",
-  Notebook: "📓", Target: "🎯", FileText: "📝",
-  Library: "📚", ClipboardCheck: "✅", Headphones: "🎧",
-  Mic: "🎤", Layers: "📚", Podcast: "🎙️",
-  Bot: "🤖", Activity: "🏃", Moon: "🌙",
-  Heart: "❤️", Sparkles: "✨", Home: "🏠",
-  Users: "👥", Briefcase: "💼", PiggyBank: "🐷",
-  Map: "🗺️", BatteryLow: "🔋",
-  Languages: "🌐", HeartHandshake: "🤝",
-  Paintbrush: "🎨",
-};
-
-const MOOD_EMOJI: Record<UserMood, string> = {
-  tired: "😴",
-  wantDiscipline: "💪",
-  wantStudy: "📚",
-  wantEnglish: "🌐",
-  wantHealth: "❤️",
-  wantFun: "🎨",
-  wantOrganize: "🏠",
-  wantJob: "💼",
-};
-
-const MOOD_TITLES: Record<UserMood, string> = {
-  tired: "有点累了",
-  wantDiscipline: "想自律一点",
-  wantStudy: "想学点东西",
-  wantEnglish: "想练英语",
-  wantHealth: "想养好身体",
-  wantFun: "想找点乐趣",
-  wantOrganize: "想整理生活",
-  wantJob: "想专注工作",
-};
+import { getIconComponent, MOOD_ICON, CATEGORY_ICON } from "@/lib/icon-map";
+import { Search, Sparkles } from "lucide-react";
 
 export function ThemeLibraryPage() {
   const [, navigate] = useLocation();
@@ -94,53 +60,56 @@ export function ThemeLibraryPage() {
   return (
     <Layout title="主题库">
       {/* ── Curator intro ── */}
-      <p className="text-sm text-[#8B8680] leading-relaxed -mt-3 mb-5">
+      <p className="text-sm text-[#8B867D] leading-relaxed -mt-3 mb-5">
         不知道这一周怎么过？从一个小主题开始。
       </p>
 
       {/* ── Search — integrated ── */}
       <div className="relative mb-5">
-        <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#BFB8B0]" />
+        <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#BFB8AD]" />
         <input
           type="text"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           placeholder="搜索主题..."
-          className="w-full rounded-xl border border-[#EAE5DE] bg-[#FFFCF8] pl-10 pr-3.5 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-[#8E7DBE]/40 focus:border-[#8E7DBE]/40 text-[#2C2A28] placeholder:text-[#BFB8B0] transition-all"
+          className="w-full rounded-xl border border-[#E8E1D6] bg-[#FFFDF8] pl-10 pr-3.5 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-[#8FA58E]/40 focus:border-[#8FA58E]/40 text-[#2F2D28] placeholder:text-[#BFB8AD] transition-all"
         />
       </div>
 
       {/* ── Mood / State — gentle question ── */}
       <div className="mb-6">
-        <p className="text-[13px] font-medium text-[#2C2A28] mb-3">
+        <p className="text-[13px] font-medium text-[#2F2D28] mb-3">
           你现在更需要什么？
         </p>
 
         {/* Mood cards grid — always visible */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
           {(Object.entries(MOOD_LABELS) as [UserMood, string][]).map(
-            ([mood, label]) => (
-              <button
-                key={mood}
-                onClick={() => handleMoodSelect(mood)}
-                className={cn(
-                  "flex items-center gap-2.5 py-3 px-3.5 rounded-xl text-sm font-medium transition-all text-left",
-                  selectedMood === mood
-                    ? "bg-[#8E7DBE] text-white shadow-sm"
-                    : "bg-[#FFFCF8] border border-[#EAE5DE] text-[#8B8680] hover:border-[#D9D0E8] hover:text-[#2C2A28]",
-                )}
-              >
-                <span className="text-base">{MOOD_EMOJI[mood]}</span>
-                <span>{label}</span>
-              </button>
-            ),
+            ([mood, label]) => {
+              const Icon = MOOD_ICON[mood];
+              return (
+                <button
+                  key={mood}
+                  onClick={() => handleMoodSelect(mood)}
+                  className={cn(
+                    "flex items-center gap-2.5 py-3 px-3.5 rounded-xl text-sm font-medium transition-all text-left",
+                    selectedMood === mood
+                      ? "bg-[#8FA58E] text-white shadow-sm"
+                      : "bg-[#FFFDF8] border border-[#E8E1D6] text-[#8B867D] hover:border-[#DDE7D8] hover:text-[#2F2D28]",
+                  )}
+                >
+                  <Icon className="h-4 w-4 shrink-0" />
+                  <span>{label}</span>
+                </button>
+              );
+            },
           )}
         </div>
 
         {/* Mood-based results */}
         {selectedMood && moodThemes.length > 0 && (
           <div className="mt-4 animate-in fade-in slide-in-from-top-2 duration-200">
-            <p className="text-xs text-[#BFB8B0] mb-2.5">
+            <p className="text-xs text-[#BFB8AD] mb-2.5">
               为你推荐 {moodThemes.length} 个主题
             </p>
             <div className="space-y-2.5">
@@ -167,18 +136,21 @@ export function ThemeLibraryPage() {
                   <Link
                     key={theme.id}
                     href={`/theme/${theme.id}`}
-                    className="shrink-0 w-52 p-5 rounded-xl bg-[#FFFCF8] border border-[#EAE5DE] text-left hover:border-[#D9D0E8] hover:shadow-sm transition-all active:opacity-80"
+                    className="shrink-0 w-52 p-5 rounded-xl bg-[#FFFDF8] border border-[#E8E1D6] text-left hover:border-[#DDE7D8] hover:shadow-sm transition-all active:opacity-80"
                   >
                     <div
                       className="w-9 h-9 rounded-xl flex items-center justify-center text-base mb-3.5"
                       style={{ backgroundColor: `${theme.color}14` }}
                     >
-                      {ICON_MAP[theme.icon] || "📌"}
+                      {(() => {
+                        const Icon = getIconComponent(theme.icon);
+                        return <Icon className="h-4 w-4" style={{ color: theme.color }} />;
+                      })()}
                     </div>
-                    <p className="text-[15px] font-semibold text-[#2C2A28] mb-1.5 leading-tight">
+                    <p className="text-[15px] font-semibold text-[#2F2D28] mb-1.5 leading-tight">
                       {theme.title}
                     </p>
-                    <p className="text-xs text-[#8B8680] leading-relaxed line-clamp-2">
+                    <p className="text-xs text-[#8B867D] leading-relaxed line-clamp-2">
                       {theme.description}
                     </p>
                   </Link>
@@ -197,12 +169,16 @@ export function ThemeLibraryPage() {
               key={cat}
               onClick={() => setSelectedCategory(cat)}
               className={cn(
-                "shrink-0 px-3.5 py-1.5 rounded-lg text-xs font-medium transition-all",
+                "shrink-0 px-3.5 py-1.5 rounded-lg text-xs font-medium transition-all flex items-center gap-1.5",
                 selectedCategory === cat
-                  ? "bg-[#8E7DBE] text-white"
-                  : "bg-[#FFFCF8] border border-[#EAE5DE] text-[#8B8680] hover:border-[#D9D0E8]",
+                  ? "bg-[#8FA58E] text-white"
+                  : "bg-[#FFFDF8] border border-[#E8E1D6] text-[#8B867D] hover:border-[#DDE7D8]",
               )}
             >
+              {cat !== "全部" && (() => {
+                const CatIcon = CATEGORY_ICON[cat as ThemeCategory];
+                return CatIcon ? <CatIcon className="h-3 w-3" /> : null;
+              })()}
               {cat}
             </button>
           ))}
@@ -211,7 +187,7 @@ export function ThemeLibraryPage() {
 
       {/* ── Theme grid ── */}
       <div className="flex items-center justify-between mb-3.5">
-        <p className="text-xs text-[#BFB8B0]">{filteredThemes.length} 个主题</p>
+        <p className="text-xs text-[#BFB8AD]">{filteredThemes.length} 个主题</p>
       </div>
 
       {filteredThemes.length > 0 ? (
@@ -221,9 +197,9 @@ export function ThemeLibraryPage() {
           ))}
         </div>
       ) : (
-        <div className="text-center py-16 text-[#BFB8B0]">
-          <div className="w-12 h-12 rounded-full bg-[#F0ECE6] flex items-center justify-center mx-auto mb-4">
-            <Search className="h-5 w-5 text-[#BFB8B0]" />
+        <div className="text-center py-16 text-[#BFB8AD]">
+          <div className="w-12 h-12 rounded-full bg-[#F3EFE8] flex items-center justify-center mx-auto mb-4">
+            <Search className="h-5 w-5 text-[#BFB8AD]" />
           </div>
           <p className="text-sm">没有找到匹配的主题</p>
           <p className="text-xs mt-1.5">试试其他关键词吧</p>

@@ -36,13 +36,13 @@ export function Layout({ children, title }: LayoutProps) {
               className={cn(
                 "flex flex-col items-center gap-0.5 px-5 py-1 text-[11px] tracking-wide transition-colors",
                 location === path
-                  ? "text-[#8E7DBE] font-medium"
-                  : "text-[#BFB8B0]",
+                  ? "text-[#8FA58E] font-medium"
+                  : "text-[#BFB8AD]",
               )}
             >
               <Icon className={cn(
                 "h-5 w-5 transition-colors",
-                location === path ? "text-[#8E7DBE]" : "text-[#C8C2BA]",
+                location === path ? "text-[#8FA58E]" : "text-[#C8C2B8]",
               )} />
               <span>{label}</span>
             </button>

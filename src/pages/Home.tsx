@@ -12,6 +12,7 @@ import {
   getWeekDates,
 } from "@/lib/storage";
 import type { ThemeWeek } from "@/lib/types";
+import { getIconComponent } from "@/lib/icon-map";
 import { Sparkles, ArrowRight, BookOpen, Headphones, Activity, Moon } from "lucide-react";
 
 const DAY_LABELS = ["一", "二", "三", "四", "五", "六", "日"];
@@ -96,20 +97,6 @@ export function HomePage() {
   const completedCount =
     activeWeek?.checkIns?.filter((c) => c.status !== "missed").length ?? 0;
 
-  // ── Icon resolver ──
-  const iconMap: Record<string, string> = {
-    BookOpen: "📖", BookMarked: "📑", RotateCcw: "🔄",
-    Notebook: "📓", Target: "🎯", FileText: "📝",
-    Library: "📚", ClipboardCheck: "✅", Headphones: "🎧",
-    Mic: "🎤", Layers: "📚", Podcast: "🎙️",
-    Bot: "🤖", Activity: "🏃", Moon: "🌙",
-    Heart: "❤️", Sparkles: "✨", Home: "🏠",
-    Users: "👥", Briefcase: "💼", PiggyBank: "🐷",
-    Map: "🗺️", BatteryLow: "🔋", Coffee: "☕",
-    Sun: "☀️", HeartHandshake: "🤝", Brain: "🧠",
-    Trash2: "🗑️", Flower2: "🌸", Zap: "⚡",
-  };
-
   // ── Determine day number in week ──
   const dayNumber = weekDates.findIndex((d) => d === today()) + 1;
 
@@ -124,11 +111,11 @@ export function HomePage() {
           <div>
             {/* Dashboard header */}
             <header className="mb-6">
-              <p className="text-xs text-[#BFB8B0] mb-1.5">第 {dayNumber} 天</p>
-              <h1 className="text-[22px] font-semibold tracking-tight text-[#2C2A28]">
+              <p className="text-xs text-[#BFB8AD] mb-1.5">第 {dayNumber} 天</p>
+              <h1 className="text-[22px] font-semibold tracking-tight text-[#2F2D28]">
                 {activeWeek.themeTitle}
               </h1>
-              <p className="text-sm text-[#8B8680] mt-1 leading-relaxed">
+              <p className="text-sm text-[#8B867D] mt-1 leading-relaxed">
                 {activeWeek.weeklyGoal}
               </p>
             </header>
@@ -139,36 +126,39 @@ export function HomePage() {
               style={{ backgroundColor: `${activeWeek.color}04` }}
             >
               {/* Theme identity row */}
-              <div className="flex items-center gap-3 mb-5 pb-5 border-b border-[#F0ECE6]">
+              <div className="flex items-center gap-3 mb-5 pb-5 border-b border-[#F3EFE8]">
                 <div
                   className="w-11 h-11 rounded-2xl flex items-center justify-center text-lg shrink-0"
                   style={{ backgroundColor: `${activeWeek.color}14` }}
                 >
-                  {iconMap[activeWeek.icon] || "📌"}
+                  {(() => {
+                    const Icon = getIconComponent(activeWeek.icon);
+                    return <Icon className="h-5 w-5" style={{ color: activeWeek.color }} />;
+                  })()}
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-[#2C2A28]">
+                  <p className="text-sm font-medium text-[#2F2D28]">
                     {activeWeek.category}
                   </p>
-                  <p className="text-[11px] text-[#BFB8B0] mt-0.5">
+                  <p className="text-[11px] text-[#BFB8AD] mt-0.5">
                     {activeWeek.startDate} ~ {activeWeek.endDate}
                   </p>
                 </div>
                 <div className="ml-auto text-right">
-                  <p className="text-2xl font-semibold text-[#8E7DBE]">
+                  <p className="text-2xl font-semibold text-[#8FA58E]">
                     {completedCount}
                   </p>
-                  <p className="text-[10px] text-[#BFB8B0]">/ 7 天</p>
+                  <p className="text-[10px] text-[#BFB8AD]">/ 7 天</p>
                 </div>
               </div>
 
               {/* Today's action — prominently featured */}
               <div className="mb-5">
-                <p className="text-[11px] text-[#BFB8B0] mb-2 tracking-wide">
+                <p className="text-[11px] text-[#BFB8AD] mb-2 tracking-wide">
                   今日小行动
                 </p>
                 <div
-                  className="rounded-2xl px-4 py-3.5 text-sm leading-relaxed font-medium text-[#2C2A28]"
+                  className="rounded-2xl px-4 py-3.5 text-sm leading-relaxed font-medium text-[#2F2D28]"
                   style={{ backgroundColor: `${activeWeek.color}0A` }}
                 >
                   {activeWeek.dailyAction}
@@ -177,7 +167,7 @@ export function HomePage() {
 
               {/* 7-day rhythm — ceremonial row */}
               <div>
-                <p className="text-[11px] text-[#BFB8B0] mb-3 tracking-wide">
+                <p className="text-[11px] text-[#BFB8AD] mb-3 tracking-wide">
                   一周节奏
                 </p>
                 <div className="flex items-center justify-between">
@@ -188,25 +178,25 @@ export function HomePage() {
                     const isToday = date === today();
                     const isFuture = date > today();
 
-                    let dotStyle = "bg-[#F0ECE6]";
+                    let dotStyle = "bg-[#F3EFE8]";
                     if (!isFuture) {
                       if (checkIn?.status === "full") dotStyle = "bg-[#A8D5BA]";
                       else if (checkIn?.status === "light")
                         dotStyle = "bg-[#E8D5A3]";
                       else if (checkIn?.status === "missed")
-                        dotStyle = "border border-dashed border-[#BFB8B0] bg-transparent";
+                        dotStyle = "border border-dashed border-[#BFB8AD] bg-transparent";
                     }
 
                     return (
                       <div key={date} className="flex flex-col items-center gap-2">
-                        <span className="text-[10px] text-[#BFB8B0] font-medium">
+                        <span className="text-[10px] text-[#BFB8AD] font-medium">
                           {DAY_LABELS[i]}
                         </span>
                         <div
                           className={cn(
                             "w-7 h-7 rounded-full flex items-center justify-center transition-all",
                             dotStyle,
-                            isToday && "ring-2 ring-[#D9D0E8] ring-offset-2 ring-offset-transparent",
+                            isToday && "ring-2 ring-[#DDE7D8] ring-offset-2 ring-offset-transparent",
                           )}
                         >
                           {!isFuture && checkIn?.status === "full" && (
@@ -218,7 +208,7 @@ export function HomePage() {
                             <span className="text-[10px] text-white font-medium">~</span>
                           )}
                         </div>
-                        <span className="text-[9px] text-[#BFB8B0]">
+                        <span className="text-[9px] text-[#BFB8AD]">
                           {date.slice(8)}
                         </span>
                       </div>
@@ -228,25 +218,25 @@ export function HomePage() {
               </div>
 
               {/* Action buttons */}
-              <div className="flex gap-2.5 mt-6 pt-5 border-t border-[#F0ECE6]">
+              <div className="flex gap-2.5 mt-6 pt-5 border-t border-[#F3EFE8]">
                 {!todayCheckIn || todayCheckIn.status === "missed" ? (
                   <button
                     onClick={() => setShowCheckIn(true)}
-                    className="flex-1 py-2.5 rounded-xl font-medium text-sm text-white bg-[#8E7DBE] hover:bg-[#7D6DAE] active:opacity-90 transition-all"
+                    className="flex-1 py-2.5 rounded-xl font-medium text-sm text-white bg-[#8FA58E] hover:bg-[#7A9279] active:opacity-90 transition-all"
                   >
                     记录今天
                   </button>
                 ) : (
                   <button
                     onClick={() => setShowCheckIn(true)}
-                    className="flex-1 py-2.5 rounded-xl font-medium text-sm border border-[#EAE5DE] text-[#8B8680] hover:bg-[#F8F6F2] transition-colors"
+                    className="flex-1 py-2.5 rounded-xl font-medium text-sm border border-[#E8E1D6] text-[#8B867D] hover:bg-[#F7F4EC] transition-colors"
                   >
                     修改记录
                   </button>
                 )}
                 <button
                   onClick={() => setShowReview(true)}
-                  className="px-5 py-2.5 rounded-xl font-medium text-sm border border-[#EAE5DE] text-[#8B8680] hover:bg-[#F8F6F2] transition-colors"
+                  className="px-5 py-2.5 rounded-xl font-medium text-sm border border-[#E8E1D6] text-[#8B867D] hover:bg-[#F7F4EC] transition-colors"
                 >
                   结束周
                 </button>
@@ -256,7 +246,7 @@ export function HomePage() {
             {/* Explore more */}
             <button
               onClick={() => navigate("/library")}
-              className="flex items-center justify-between w-full py-2 text-sm text-[#8B8680] hover:text-[#2C2A28] transition-colors"
+              className="flex items-center justify-between w-full py-2 text-sm text-[#8B867D] hover:text-[#2F2D28] transition-colors"
             >
               <span>探索更多主题</span>
               <ArrowRight className="h-3.5 w-3.5" />
@@ -266,7 +256,7 @@ export function HomePage() {
           {/* ── Desktop sidebar: week overview ― */}
           <div className="hidden lg:block desktop-sidebar">
             <div className="card-soft">
-              <p className="text-xs text-[#BFB8B0] mb-3">本周概览</p>
+              <p className="text-xs text-[#BFB8AD] mb-3">本周概览</p>
               <div className="space-y-2">
                 {weekDates.map((date, i) => {
                   const checkIn = activeWeek.checkIns?.find(
@@ -289,14 +279,14 @@ export function HomePage() {
                             : checkIn?.status === "light"
                               ? "bg-[#E8D5A3]"
                               : checkIn?.status === "missed"
-                                ? "border border-dashed border-[#BFB8B0]"
-                                : "bg-[#F0ECE6]",
+                                ? "border border-dashed border-[#BFB8AD]"
+                                : "bg-[#F3EFE8]",
                         )}
                       />
-                      <span className="w-6 text-[#BFB8B0] text-xs">
+                      <span className="w-6 text-[#BFB8AD] text-xs">
                         {DAY_LABELS[i]}
                       </span>
-                      <span className="text-[#8B8680] text-xs flex-1">
+                      <span className="text-[#8B867D] text-xs flex-1">
                         {checkIn?.status === "full"
                           ? "已完成"
                           : checkIn?.status === "light"
@@ -308,7 +298,7 @@ export function HomePage() {
                                 : "今天"}
                       </span>
                       {checkIn?.note && (
-                        <span className="text-[10px] text-[#BFB8B0] truncate max-w-[100px]">
+                        <span className="text-[10px] text-[#BFB8AD] truncate max-w-[100px]">
                           {checkIn.note}
                         </span>
                       )}
@@ -327,28 +317,28 @@ export function HomePage() {
         /* ── Hero section ── */
         <>
           <div className="hero-section">
-            <div className="w-12 h-12 rounded-2xl bg-[#F0ECF5] flex items-center justify-center mx-auto mb-5">
-              <Sparkles className="h-5 w-5 text-[#8E7DBE]" />
+            <div className="w-12 h-12 rounded-2xl bg-[#EEF3EB] flex items-center justify-center mx-auto mb-5">
+              <Sparkles className="h-5 w-5 text-[#8FA58E]" />
             </div>
-            <h1 className="text-[28px] font-semibold tracking-tight text-[#2C2A28] leading-tight">
+            <h1 className="text-[28px] font-semibold tracking-tight text-[#2F2D28] leading-tight">
               给这一周，
               <br />
               一个温柔的方向。
             </h1>
-            <p className="text-sm text-[#8B8680] mt-3 leading-relaxed max-w-xs mx-auto">
+            <p className="text-sm text-[#8B867D] mt-3 leading-relaxed max-w-xs mx-auto">
               不用一下子变好，只要这一周慢慢靠近。
             </p>
             <div className="divider-line" />
             <button
               onClick={() => navigate("/library")}
-              className="inline-flex items-center gap-2 px-7 py-3 rounded-xl font-medium text-sm text-white bg-[#8E7DBE] hover:bg-[#7D6DAE] active:opacity-90 transition-all shadow-sm"
+              className="inline-flex items-center gap-2 px-7 py-3 rounded-xl font-medium text-sm text-white bg-[#8FA58E] hover:bg-[#7A9279] active:opacity-90 transition-all shadow-sm"
             >
               <Sparkles className="h-4 w-4" />
               开启本周主题
             </button>
 
             {/* Gentle copy + weekly rhythm visual */}
-            <p className="text-xs text-[#BFB8B0] mt-5 leading-relaxed">
+            <p className="text-xs text-[#BFB8AD] mt-5 leading-relaxed">
               选择一个主题，陪自己走过这 7 天。
             </p>
             <div className="rhythm-dots with-line mt-3" aria-hidden="true">
@@ -364,7 +354,7 @@ export function HomePage() {
                 <button
                   key={id}
                   onClick={() => navigate(`/theme/${id}`)}
-                  className="flex items-start gap-3.5 p-4 rounded-xl bg-[#FFFCF8] border border-[#EAE5DE] text-left hover:border-[#D9D0E8] hover:bg-[#F0ECF5]/30 transition-all active:opacity-80"
+                  className="flex items-start gap-3.5 p-4 rounded-xl bg-[#FFFDF8] border border-[#E8E1D6] text-left hover:border-[#DDE7D8] hover:bg-[#EEF3EB]/30 transition-all active:opacity-80"
                 >
                   <div
                     className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0 mt-0.5"
@@ -373,10 +363,10 @@ export function HomePage() {
                     <Icon className="h-4 w-4" style={{ color }} />
                   </div>
                   <div className="min-w-0">
-                    <p className="text-sm font-medium text-[#2C2A28]">
+                    <p className="text-sm font-medium text-[#2F2D28]">
                       {title}
                     </p>
-                    <p className="text-xs text-[#8B8680] mt-0.5 leading-relaxed">
+                    <p className="text-xs text-[#8B867D] mt-0.5 leading-relaxed">
                       {desc}
                     </p>
                   </div>
@@ -390,15 +380,15 @@ export function HomePage() {
             <div>
               <h3 className="section-label">上次回顾</h3>
               <div className="card-soft">
-                <p className="text-xs text-[#8B8680] mb-1">
+                <p className="text-xs text-[#8B867D] mb-1">
                   {lastCompleted.themeTitle}
                 </p>
                 {lastCompleted.review && (
                   <>
-                    <p className="text-sm text-[#2C2A28] leading-relaxed">
+                    <p className="text-sm text-[#2F2D28] leading-relaxed">
                       {lastCompleted.review.biggestGain}
                     </p>
-                    <p className="text-xs text-[#BFB8B0] mt-1.5">
+                    <p className="text-xs text-[#BFB8AD] mt-1.5">
                       {lastCompleted.checkIns.filter((c) => c.status !== "missed").length}{" "}
                       / 7 天完成
                     </p>
@@ -406,7 +396,7 @@ export function HomePage() {
                 )}
                 <button
                   onClick={() => navigate("/history")}
-                  className="mt-3 text-xs text-[#8E7DBE] font-medium flex items-center gap-1 hover:text-[#7D6DAE] transition-colors"
+                  className="mt-3 text-xs text-[#8FA58E] font-medium flex items-center gap-1 hover:text-[#7A9279] transition-colors"
                 >
                   查看历史记录 <ArrowRight className="h-3 w-3" />
                 </button>
@@ -436,42 +426,42 @@ export function HomePage() {
       {showReview && activeWeek && (
         <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center">
           <div
-            className="absolute inset-0 bg-[#2C2A28]/40"
+            className="absolute inset-0 bg-[#2F2D28]/40"
             onClick={() => setShowReview(false)}
           />
-          <div className="relative bg-[#FFFCF8] rounded-t-2xl sm:rounded-2xl w-full max-w-sm p-6 pb-[calc(1.5rem+env(safe-area-inset-bottom,0px))] animate-in slide-in-from-bottom duration-300 max-h-[80vh] overflow-y-auto">
-            <h2 className="text-lg font-semibold text-[#2C2A28] mb-1">
+          <div className="relative bg-[#FFFDF8] rounded-t-2xl sm:rounded-2xl w-full max-w-sm p-6 pb-[calc(1.5rem+env(safe-area-inset-bottom,0px))] animate-in slide-in-from-bottom duration-300 max-h-[80vh] overflow-y-auto">
+            <h2 className="text-lg font-semibold text-[#2F2D28] mb-1">
               结束本周复盘
             </h2>
-            <p className="text-xs text-[#8B8680] mb-5">
+            <p className="text-xs text-[#8B867D] mb-5">
               {activeWeek.themeTitle} · 完成后不可修改
             </p>
 
             <div className="space-y-4">
               <div>
-                <label className="text-xs text-[#8B8680] font-medium mb-1.5 block">
+                <label className="text-xs text-[#8B867D] font-medium mb-1.5 block">
                   本周最大的收获是？
                 </label>
                 <textarea
                   value={reviewGain}
                   onChange={(e) => setReviewGain(e.target.value)}
                   placeholder="写写这周的感受..."
-                  className="w-full rounded-xl border border-[#EAE5DE] px-3.5 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-[#8E7DBE]/40 focus:border-[#8E7DBE]/40 bg-white resize-none h-20 text-[#2C2A28] placeholder:text-[#BFB8B0]"
+                  className="w-full rounded-xl border border-[#E8E1D6] px-3.5 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-[#8FA58E]/40 focus:border-[#8FA58E]/40 bg-white resize-none h-20 text-[#2F2D28] placeholder:text-[#BFB8AD]"
                 />
               </div>
               <div>
-                <label className="text-xs text-[#8B8680] font-medium mb-1.5 block">
+                <label className="text-xs text-[#8B867D] font-medium mb-1.5 block">
                   遇到什么困难或卡住的地方？
                 </label>
                 <textarea
                   value={reviewStruggle}
                   onChange={(e) => setReviewStruggle(e.target.value)}
                   placeholder="有什么挑战？"
-                  className="w-full rounded-xl border border-[#EAE5DE] px-3.5 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-[#8E7DBE]/40 focus:border-[#8E7DBE]/40 bg-white resize-none h-20 text-[#2C2A28] placeholder:text-[#BFB8B0]"
+                  className="w-full rounded-xl border border-[#E8E1D6] px-3.5 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-[#8FA58E]/40 focus:border-[#8FA58E]/40 bg-white resize-none h-20 text-[#2F2D28] placeholder:text-[#BFB8AD]"
                 />
               </div>
               <div>
-                <label className="text-xs text-[#8B8680] font-medium mb-1.5 block">
+                <label className="text-xs text-[#8B867D] font-medium mb-1.5 block">
                   下周是否继续这个主题？
                 </label>
                 <div className="flex gap-2">
@@ -482,8 +472,8 @@ export function HomePage() {
                       className={cn(
                         "flex-1 py-2 rounded-lg text-sm font-medium transition-all",
                         continueNext === v
-                          ? "bg-[#8E7DBE] text-white"
-                          : "bg-[#F0ECE6] text-[#8B8680]",
+                          ? "bg-[#8FA58E] text-white"
+                          : "bg-[#F3EFE8] text-[#8B867D]",
                       )}
                     >
                       {v ? "继续" : "换一个"}
@@ -492,7 +482,7 @@ export function HomePage() {
                 </div>
               </div>
               <div>
-                <label className="text-xs text-[#8B8680] font-medium mb-1.5 block">
+                <label className="text-xs text-[#8B867D] font-medium mb-1.5 block">
                   其他想说的（选填）
                 </label>
                 <input
@@ -500,14 +490,14 @@ export function HomePage() {
                   value={reviewNotes}
                   onChange={(e) => setReviewNotes(e.target.value)}
                   placeholder="任何想记录的话..."
-                  className="w-full rounded-xl border border-[#EAE5DE] px-3.5 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-[#8E7DBE]/40 focus:border-[#8E7DBE]/40 bg-white text-[#2C2A28] placeholder:text-[#BFB8B0]"
+                  className="w-full rounded-xl border border-[#E8E1D6] px-3.5 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-[#8FA58E]/40 focus:border-[#8FA58E]/40 bg-white text-[#2F2D28] placeholder:text-[#BFB8AD]"
                 />
               </div>
             </div>
 
             <button
               onClick={handleReviewSubmit}
-              className="w-full mt-6 py-2.5 rounded-xl font-medium text-sm text-white bg-[#8E7DBE] hover:bg-[#7D6DAE] active:opacity-90 transition-all"
+              className="w-full mt-6 py-2.5 rounded-xl font-medium text-sm text-white bg-[#8FA58E] hover:bg-[#7A9279] active:opacity-90 transition-all"
             >
               完成复盘
             </button>
