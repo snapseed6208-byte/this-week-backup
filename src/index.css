@@ -319,3 +319,35 @@ body {
     top: 40px;
   }
 }
+
+/* ══════════════════════════════════════════
+   Mobile sheet / safe area utilities
+   ══════════════════════════════════════════ */
+
+/* Bottom safe-area padding for modals and sheets */
+.safe-bottom {
+  padding-bottom: calc(24px + env(safe-area-inset-bottom, 24px));
+}
+
+/* Modal bottom sheet — uses dvh, not vh, to account for browser chrome */
+.sheet-container {
+  max-height: calc(100dvh - 64px);
+}
+
+/* Scrollable area inside a sheet — smooth touch scrolling */
+.sheet-scroll {
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  flex: 1;
+}
+
+/* Footer inside a sheet — always visible at the bottom */
+.sheet-footer {
+  flex-shrink: 0;
+  background: inherit;
+}
+
+/* z-index tier: modals sit above bottom nav (z-50) */
+.modal-overlay {
+  z-index: 60;
+}

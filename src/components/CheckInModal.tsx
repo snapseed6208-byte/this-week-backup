@@ -30,20 +30,19 @@ export function CheckInModal({
   const hasNumericInput = checkInType !== "达标/未达标" && checkInType !== "次数" && checkInType !== "个数" && checkInType !== "件数";
 
   return (
-    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center">
+    <div className="modal-overlay fixed inset-0 flex items-end sm:items-center justify-center">
       {/* Backdrop */}
       <div className="absolute inset-0 bg-[#2F2D28]/40" onClick={onClose} />
 
-      {/* Sheet */}
-      <div className="relative bg-[#FFFDF8] rounded-t-3xl sm:rounded-2xl w-full max-w-sm flex flex-col max-h-[85dvh] animate-in slide-in-from-bottom duration-300">
-        {/* Gentle top drag indicator (stays visible) */}
+      {/* Sheet — flex column layout with predictable dvh-based height */}
+      <div className="sheet-container relative bg-[#FFFDF8] rounded-t-3xl sm:rounded-2xl w-full max-w-sm flex flex-col animate-in slide-in-from-bottom duration-300">
+        {/* Gentle top drag indicator */}
         <div className="flex justify-center pt-3 pb-1 shrink-0">
           <div className="w-8 h-1 rounded-full bg-[#E8E1D6]" />
         </div>
 
-        {/* Scrollable content with safe-area bottom clearance */}
-        <div className="overflow-y-auto px-6 pb-[calc(1.5rem+env(safe-area-inset-bottom,0px))]">
-          {/* ── Header ── */}
+        {/* ── Fixed header area ── */}
+        <div className="shrink-0 px-6">
           <div className="flex items-center justify-between mb-5">
             <div>
               <h2 className="text-lg font-semibold text-[#2F2D28]">
@@ -59,12 +58,14 @@ export function CheckInModal({
             </button>
           </div>
 
-          {/* ── Gentle prompt ── */}
           <p className="text-sm text-[#8B867D] leading-relaxed mb-5">
             今天，完成到什么程度就很好。
           </p>
+        </div>
 
-          {/* ── Status — segmented cards ── */}
+        {/* ── Scrollable content area ── */}
+        <div className="sheet-scroll px-6">
+          {/* Status — segmented cards */}
           <div className="flex gap-2.5 mb-5">
             {[
               { key: "full" as const, label: "好好完成", desc: "达到目标" },
@@ -93,7 +94,7 @@ export function CheckInModal({
             ))}
           </div>
 
-          {/* ── Numeric value ── */}
+          {/* Numeric value */}
           <div className="mb-4">
             <label className="text-xs text-[#8B867D] font-medium mb-1.5 block">
               {checkInType === "达标/未达标" ? "完成情况" : `${checkInType}`}
@@ -130,8 +131,8 @@ export function CheckInModal({
             )}
           </div>
 
-          {/* ── Journal note ── */}
-          <div className="mb-6">
+          {/* Journal note */}
+          <div className="mb-2">
             <label className="text-xs text-[#8B867D] font-medium mb-1.5 block">
               今天的感受
             </label>
@@ -143,8 +144,10 @@ export function CheckInModal({
               className="w-full rounded-xl border border-[#E8E1D6] px-3.5 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-[#8FA58E]/40 focus:border-[#8FA58E]/40 bg-white text-[#2F2D28] placeholder:text-[#BFB8AD] resize-none"
             />
           </div>
+        </div>
 
-          {/* ── Save button ── */}
+        {/* ── Sticky footer — save button always visible ── */}
+        <div className="sheet-footer px-6 pt-4 safe-bottom">
           <button
             onClick={() =>
               onSave(
